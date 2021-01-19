@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SQLServerTools.Messenger\SQLServerTools.Messenger.csproj" />
+    <ProjectReference Include="..\SQLServerTools.Database\SQLServerTools.Database.csproj" />
   </ItemGroup>
 
 </Project>

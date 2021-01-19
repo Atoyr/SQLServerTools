@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using SQLServerTools.Views.Dialogs;
+using SQLServerTools.ViewModels;
 
 namespace SQLServerTools.Views
 {
@@ -24,6 +26,23 @@ namespace SQLServerTools.Views
     public BasePanel()
     {
       InitializeComponent();
+    }
+
+    private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+    {
+      var setting = new DbLoginDialogSettings();
+      var result = await DbLoginDialogManager.ShowDbLoginDialog(setting, "SQLServerへ接続");
+      var ctx = this.DataContext as BasePanelViewModel;
+      if (!ctx.UpdateDbContext(result.Servername, result.IntegratedSecurity, result.Username, result.Password))
+      {
+        result = await DbLoginDialogManager.ShowDbLoginDialog(setting, "SQLServerへ接続");
+        ctx.UpdateDbContext(result.Servername, result.IntegratedSecurity, result.Username, result.Password);
+      }
+    }
+
+    private void DisconnectButton_Click(object sender, RoutedEventArgs e)
+    {
+
     }
   }
 }

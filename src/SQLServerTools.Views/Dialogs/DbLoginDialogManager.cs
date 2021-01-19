@@ -11,17 +11,16 @@ namespace SQLServerTools.Views.Dialogs
     {
       MetroWindow window = (MetroWindow)Application.Current.MainWindow;
 
-      //var dbLoginDialogTask = this.ShowMetroDialogAsync<DbLoginDialog>(dbLoginDialogSettings);
       var dialog = new DbLoginDialog(window, setting);
-      dialog.Title = "SQL Server Connection";
+      dialog.Title = dialogTitle;
       return window.ShowMetroDialogAsync(dialog).ContinueWith(x =>
           {
           return dialog.WaitForButtonPressAsync().ContinueWith(y =>
               {
-                window.HideMetroDialogAsync(dialog).Wait();
+                window.HideMetroDialogAsync(dialog);
                 return y;
-                }).Unwrap();
-          }).Unwrap();
+                }, TaskScheduler.FromCurrentSynchronizationContext()).Unwrap();
+          }, TaskScheduler.FromCurrentSynchronizationContext()).Unwrap();
     }
   }
 }

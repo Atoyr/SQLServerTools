@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Data;
+using System.Data.SqlClient;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Events;
@@ -13,6 +15,7 @@ using Prism.Commands;
 using Unity;
 using Reactive.Bindings;
 using SQLServerTools.Messenger.Events;
+using SQLServerTools.Database;
 
 namespace SQLServerTools.ViewModels
 {
@@ -38,6 +41,42 @@ namespace SQLServerTools.ViewModels
       eventAggregator.GetEvent<ChangeRequestLeftStatusMessageEvent>().Subscribe(ChangeLeftStatusMessage);
       eventAggregator.GetEvent<ChangeRequestCenterStatusMessageEvent>().Subscribe(ChangeCenterStatusMessage);
       eventAggregator.GetEvent<ChangeRequestRightStatusMessageEvent>().Subscribe(ChangeRightStatusMessage);
+    }
+
+    public bool UpdateDbContext(string server, bool integratedSecurity, string username, string password)
+    {
+      var builder = new SqlConnectionStringBuilder(); 
+      try 
+      {
+        builder.DataSource = server;
+        if ( integratedSecurity)
+        {
+          builder.IntegratedSecurity = true;
+        }
+        else
+        {
+          builder.IntegratedSecurity = false;
+          builder.UserID = username;
+          builder.Password = password;
+        }
+
+        Common.Ping(builder.ConnectionString);
+      }
+      catch (Exception e)
+      {
+        this.LeftStatusMessage.Value = e.Message;
+        return false;
+      }
+
+
+
+
+      return false;
+    }
+
+    public bool RemoveDbContext()
+    {
+      return false;
     }
 
     private void ChangeLeftStatusMessage(string message)

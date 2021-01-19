@@ -77,6 +77,13 @@
       Foreground="White" 
       Height="25" 
       Margin="0,0,20,0">
+    <Label.ContextMenu>
+      <ContextMenu
+        Placement="Top">
+        <MenuItem Header="接続" Click="ConnectButton_Click" />
+        <MenuItem Header="切断" Click="DisconnectButton_Click" />
+      </ContextMenu>
+    </Label.ContextMenu>
       <TextBlock 
         x:Name="RightStatusText" 
         HorizontalAlignment="Right" 
