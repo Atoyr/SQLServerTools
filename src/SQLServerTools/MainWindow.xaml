@@ -12,6 +12,7 @@
 
   prism:ViewModelLocator.AutoWireViewModel="True"
   Title="{Binding Title.Value}" 
+  TitleCharacterCasing="Normal"
 
   TitleBarHeight="29"
   TitleAlignment="Center"

@@ -25,7 +25,7 @@ namespace SQLServerTools
 
     public override void Initialize(IUnityContainer unityContainer)
     {
-      this.Title.Value = "SQLFormatter";
+      this.Title.Value = "SQL Server Tools";
     }
   }
 }
