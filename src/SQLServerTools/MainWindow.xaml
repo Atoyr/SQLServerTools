@@ -12,12 +12,20 @@
 
   prism:ViewModelLocator.AutoWireViewModel="True"
   Title="{Binding Title.Value}" 
+
+  TitleBarHeight="29"
+  TitleAlignment="Center"
   MinHeight="480"
   MinWidth="640"
   Height="600" 
   Width="800"
   >
-  <views:BasePanel 
-    DataContext="{Binding BasePanelViewModel}"
+<controls:MetroWindow.LeftWindowCommands>
+  <controls:WindowCommands>
+    <views:MenuPanel />
+  </controls:WindowCommands>
+</controls:MetroWindow.LeftWindowCommands>
+<views:BasePanel 
+  DataContext="{Binding BasePanelViewModel}"
   />
 </controls:MetroWindow>
