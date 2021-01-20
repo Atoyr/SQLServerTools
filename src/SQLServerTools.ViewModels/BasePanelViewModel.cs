@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -43,7 +44,7 @@ namespace SQLServerTools.ViewModels
       eventAggregator.GetEvent<ChangeRequestRightStatusMessageEvent>().Subscribe(ChangeRightStatusMessage);
     }
 
-    public bool UpdateDbContext(string server, bool integratedSecurity, string username, string password)
+    public (bool ok, string message) UpdateDbContext(string server, bool integratedSecurity, string username, string password)
     {
       var builder = new SqlConnectionStringBuilder(); 
       try 
@@ -64,18 +65,19 @@ namespace SQLServerTools.ViewModels
       }
       catch (Exception e)
       {
-        this.LeftStatusMessage.Value = e.Message;
-        return false;
+        return (false, e.Message);
       }
 
-
-
-
-      return false;
+      Container.RegisterInstance<DbConnectionStringBuilder>(builder);
+      RightStatusMessage.Value = $"{builder.DataSource} : master : {builder.UserID}";
+      return (true, string.Empty);
     }
 
     public bool RemoveDbContext()
     {
+      var builder = new SqlConnectionStringBuilder(); 
+      Container.RegisterInstance<DbConnectionStringBuilder>(builder);
+      RightStatusMessage.Value = "Disconnected";
       return false;
     }
 

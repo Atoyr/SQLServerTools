@@ -37,14 +37,14 @@
     Text="{Binding Servername, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     TextWrapping="Wrap" />
   <CheckBox x:Name="PART_IntegratedSecurity"
-    Grid.Row="4"
+    Grid.Row="2"
     Margin="0 5 0 0"
     Content="{Binding IntegratedSecurityCheckBoxText, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     FontSize="{Binding DialogMessageFontSize, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     IsChecked="{Binding IntegratedSecurityCheckBoxChecked, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     Visibility="{Binding IntegratedSecurityCheckBoxVisibility, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
   <TextBox x:Name="PART_TextBox2"
-    Grid.Row="2"
+    Grid.Row="3"
     Margin="0 5 0 0"
     mah:TextBoxHelper.SelectAllOnFocus="True"
     mah:TextBoxHelper.Watermark="{Binding UsernameWatermark, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
@@ -55,7 +55,7 @@
     Text="{Binding Username, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     TextWrapping="Wrap" />
   <PasswordBox x:Name="PART_TextBox3"
-    Grid.Row="3"
+    Grid.Row="4"
     Margin="0 5 0 0"
     behaviors:PasswordBoxBindingBehavior.Password="{Binding Password, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     mah:TextBoxHelper.SelectAllOnFocus="True"
@@ -63,7 +63,7 @@
     FontSize="{Binding DialogMessageFontSize, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
   <CheckBox x:Name="PART_RememberCheckBox"
-    Grid.Row="4"
+    Grid.Row="5"
     Margin="0 5 0 0"
     Content="{Binding RememberCheckBoxText, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     FontSize="{Binding DialogMessageFontSize, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"

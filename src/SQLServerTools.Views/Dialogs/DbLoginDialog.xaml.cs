@@ -349,6 +349,28 @@ namespace SQLServerTools.Views.Dialogs
       this.PART_NegativeButton.Click += negativeHandler;
       this.PART_AffirmativeButton.Click += affirmativeHandler;
 
+      this.PART_IntegratedSecurity.Checked += (sender, e) =>
+      {
+          this.PART_TextBox2.IsEnabled = false;
+          if (string.IsNullOrEmpty(Environment.UserDomainName))
+          {
+            this.PART_TextBox2.Text = Environment.UserName;
+          }
+          else
+          {
+            this.PART_TextBox2.Text = $"{Environment.UserDomainName}\\{Environment.UserName}";
+          }
+          this.PART_TextBox3.IsEnabled = false;
+          this.PART_TextBox3.Password = string.Empty;
+      };
+      this.PART_IntegratedSecurity.Unchecked += (sender, e) =>
+      {
+          this.PART_TextBox2.IsEnabled = true;
+          this.PART_TextBox2.Text = string.Empty;
+          this.PART_TextBox3.IsEnabled = true;
+          this.PART_TextBox3.Password = string.Empty;
+      };
+
       return tcs.Task;
     }
 

@@ -35,9 +35,9 @@
     Grid.Row="2" 
     Background="{DynamicResource MahApps.Brushes.Accent}">
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="5*"/>
-      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions> 
     <Label 
       x:Name="LeftFooterLabel" 
