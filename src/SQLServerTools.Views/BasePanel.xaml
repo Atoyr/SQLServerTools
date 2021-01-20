@@ -15,24 +15,11 @@
 </UserControl.Resources>
 <Grid>
 <Grid.RowDefinitions>
-  <RowDefinition Height="30" />
   <RowDefinition Height="*"/>
-  <RowDefinition Height="25" />
+  <RowDefinition Height="21" />
 </Grid.RowDefinitions> 
   <Grid 
-    Grid.Row="0">
-  <Menu>
-      <MenuItem Header="ファイル(_F)">
-        <MenuItem Header="新規作成(_N)" Command="{Binding NewEditorCommand}"/>
-        <MenuItem Header="開く(_O)" Command="{Binding OpenEditorCommand}"/>
-        <MenuItem Header="上書き保存(_S)" Command="{Binding SaveEditorCommand}"  />
-        <MenuItem Header="名前を付けて保存(_A)" Command="{Binding SaveAsEditorCommand}" />
-        <MenuItem Header="閉じる(_C)" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
-      </MenuItem>
-    </Menu>
-  </Grid>
-  <Grid 
-    Grid.Row="2" 
+    Grid.Row="1" 
     Background="{DynamicResource MahApps.Brushes.Accent}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
@@ -45,12 +32,14 @@
       HorizontalContentAlignment="Left" 
       TextBlock.Foreground="White" 
       Foreground="White" 
-      Height="25" 
+      Height="21" 
+      Padding="0,0,0,0"
       Margin="0,0,0,0">
       <TextBlock 
         x:Name="LeftStatusText" 
         HorizontalAlignment="Left" 
         VerticalAlignment="Stretch" 
+        FontSize="11"
         Width="auto"
         Text="{Binding LeftStatusMessage.Value}"/>
     </Label>
@@ -60,37 +49,62 @@
       HorizontalContentAlignment="Left" 
       TextBlock.Foreground="White" 
       Foreground="White" 
-      Height="25" 
+      Height="21" 
+      Padding="0,0,0,0"
       Margin="20,0,0,0">
       <TextBlock 
         x:Name="CenterStatusText" 
         HorizontalAlignment="Left" 
         VerticalAlignment="Stretch" 
+        FontSize="11"
         Width="auto"
         Text="{Binding CenterStatusMessage.Value}"/>
     </Label>
-    <Label 
+    <ToggleButton 
+      Background="{DynamicResource MahApps.Brushes.Accent}"
       Grid.Column="2"
-      x:Name="RightFooterLabel" 
-      HorizontalContentAlignment="Right" 
-      TextBlock.Foreground="White" 
-      Foreground="White" 
-      Height="25" 
-      Margin="0,0,20,0">
-    <Label.ContextMenu>
-      <ContextMenu
-        Placement="Top">
-        <MenuItem Header="接続" Click="ConnectButton_Click" />
-        <MenuItem Header="切断" Click="DisconnectButton_Click" />
-      </ContextMenu>
-    </Label.ContextMenu>
-      <TextBlock 
-        x:Name="RightStatusText" 
-        HorizontalAlignment="Right" 
-        VerticalAlignment="Stretch" 
-        Width="auto"
-        Text="{Binding RightStatusMessage.Value}"/>
-    </Label>
+      Height="21"
+      FontSize="11"
+      Margin="0,0,0,0"
+      Padding="0,0,0,0"
+      BorderThickness="0"
+      Loaded="ToggleButton_Loaded">
+        <ToggleButton.ContextMenu>
+            <ContextMenu>
+              <MenuItem 
+                Header="Connect" 
+                Click="ConnectButton_Click"  VerticalAlignment="Bottom"/>
+              <MenuItem 
+                Header="Disconnect" 
+                Click="DisconnectButton_Click"  VerticalAlignment="Bottom"/>
+            </ContextMenu>
+        </ToggleButton.ContextMenu>
+        <WrapPanel Margin="5,0">
+          <TextBlock 
+            Text="{Binding RightStatusMessage.Value}"/>
+        </WrapPanel>
+    </ToggleButton>
+    <!--    <Menu
+      Background="{DynamicResource MahApps.Brushes.Accent}"
+      Grid.Column="2"
+      IsMainMenu="false">
+      <MenuItem 
+        Header="{Binding RightStatusMessage.Value}" 
+        Background="{DynamicResource MahApps.Brushes.Accent}"
+        VerticalAlignment="Center" 
+        Padding="0,0,0,0"
+        Height="21"
+        BorderThickness="0"
+        Margin="4,0,4,0"
+        FontSize="11">
+        <MenuItem 
+          Header="Connect" 
+          Click="ConnectButton_Click"  VerticalAlignment="Bottom"/>
+        <MenuItem 
+          Header="Disconnect" 
+          Click="DisconnectButton_Click"  VerticalAlignment="Bottom"/>
+      </MenuItem>
+    </Menu> -->
   </Grid>
 </Grid>
 </UserControl>
