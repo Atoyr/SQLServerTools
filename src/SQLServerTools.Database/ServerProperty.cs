@@ -104,6 +104,7 @@ namespace SQLServerTools.Database
               sp.Edition  = (string)reader["Edition"];
             }
           }
+          conn.Close();
         }
       }
       catch (Exception e)
