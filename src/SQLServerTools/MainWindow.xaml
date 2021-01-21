@@ -13,6 +13,7 @@
   prism:ViewModelLocator.AutoWireViewModel="True"
   Title="{Binding Title.Value}" 
   TitleCharacterCasing="Normal"
+  ShowIconOnTitleBar="True"
 
   TitleBarHeight="29"
   TitleAlignment="Center"
@@ -27,6 +28,5 @@
   </controls:WindowCommands>
 </controls:MetroWindow.LeftWindowCommands>
 <views:BasePanel 
-  DataContext="{Binding BasePanelViewModel}"
-  />
+  DataContext="{Binding BasePanelViewModel}" />
 </controls:MetroWindow>
