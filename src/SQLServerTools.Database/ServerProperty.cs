@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -24,6 +25,50 @@ namespace SQLServerTools.Database
     public string ProductLevel { get; set; }
     public string Edition { get; set; }
 
+    public string Version 
+    {
+      get 
+      {
+        if (string.IsNullOrEmpty(ProductVersion))
+        {
+          return string.Empty;
+        }
+
+        var sb = new StringBuilder();
+        sb.Append("Microsoft SQL Server");
+        sb.Append(" ");
+        switch (ProductMajorVersion)
+        {
+          case "11":
+            sb.Append("2012");
+            break;
+          case "12":
+            sb.Append("2014");
+            break;
+          case "13":
+            sb.Append("2016");
+            break;
+          case "14": 
+            sb.Append("2017");
+            break;
+          case "15":
+            sb.Append("2019");
+            break;
+        }
+        if (!string.IsNullOrEmpty(ProductLevel))
+        {
+          sb.Append(" ");
+          sb.Append("(").Append(ProductLevel).Append(")");
+        }
+        sb.Append(" ");
+        sb.Append(Edition);
+        sb.Append(" - ");
+        sb.Append(ProductVersion);
+
+        return sb.ToString();
+      }
+    }
+
     public static ServerProperty GetServerProperty(string connectionString)
     {
       SqlConnectionStringBuilder builder;
@@ -45,18 +90,18 @@ namespace SQLServerTools.Database
         {
           cmd.Connection = conn;
           cmd.CommandType = CommandType.Text;
+          conn.Open();
           using (var reader = cmd.ExecuteReader())
           {
             while (reader.Read())
             {
-              sp.MachineName = (string)reader["MachineName"];
-              sp.MachineName  = (string)reader["MachineName "];
-              sp.InstanceName  = (string)reader["InstanceName "];
-              sp.ServerName  = (string)reader["ServerName "];
-              sp.ProductVersion  = (string)reader["ProductVersion "];
-              sp.ProductMajorVersion  = (string)reader["ProductMajorVersion "];
-              sp.ProductLevel  = (string)reader["ProductLevel "];
-              sp.Edition  = (string)reader["Edition "];
+              sp.MachineName  = (string)reader["MachineName"];
+              sp.InstanceName  = (string)reader["InstanceName"];
+              sp.ServerName  = (string)reader["ServerName"];
+              sp.ProductVersion  = (string)reader["ProductVersion"];
+              sp.ProductMajorVersion  = (string)reader["ProductMajorVersion"];
+              sp.ProductLevel  = (string)reader["ProductLevel"];
+              sp.Edition  = (string)reader["Edition"];
             }
           }
         }

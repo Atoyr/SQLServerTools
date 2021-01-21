@@ -17,7 +17,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using SQLServerTools.Views.Dialogs;
 using SQLServerTools.ViewModels;
-
+using System.Windows.Controls.Primitives;
 namespace SQLServerTools.Views
 {
   /// <summary>
@@ -28,6 +28,7 @@ namespace SQLServerTools.Views
     public BasePanel()
     {
       InitializeComponent();
+      PART_DisconnectMenuItem.IsEnabled = false;
     }
 
     private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -36,9 +37,9 @@ namespace SQLServerTools.Views
       var setting = new DbLoginDialogSettings()
       {
         IntegratedSecurityCheckBoxVisibility = Visibility.Visible,
-        IntegratedSecurityCheckBoxText = "Windows認証",
+        // IntegratedSecurityCheckBoxText = "Windows認証",
         NegativeButtonVisibility = Visibility.Visible,
-        NegativeButtonText = "キャンセル"
+        // NegativeButtonText = "キャンセル"
       };
 
       bool ok = false;
@@ -46,7 +47,7 @@ namespace SQLServerTools.Views
 
       do
       {
-        var result = await DbLoginDialogManager.ShowDbLoginDialog(setting, "SQLServerへ接続");
+        var result = await DbLoginDialogManager.ShowDbLoginDialog(setting, "Connect SQL Server");
 
         if (result == null ) break;
         (ok, message) = ctx.UpdateDbContext(result.Servername, result.IntegratedSecurity, result.Username, result.Password);
@@ -55,16 +56,20 @@ namespace SQLServerTools.Views
             var dialogSetting = new MetroDialogSettings()
             {
               AffirmativeButtonText = "OK",
-              NegativeButtonText = "キャンセル"
+              NegativeButtonText = "Cancel"
             };
             MetroWindow window = (MetroWindow)Application.Current.MainWindow;
 
-            var dialogResult = await window.ShowMessageAsync("接続に失敗しました", message,
+            var dialogResult = await window.ShowMessageAsync("Connecting Failed", message,
                                                                      MessageDialogStyle.AffirmativeAndNegative, dialogSetting);
             if (dialogResult == MessageDialogResult.Negative || dialogResult == MessageDialogResult.Canceled)
             {
               break;
             }
+        }
+        else 
+        {
+          PART_DisconnectMenuItem.IsEnabled = true;
         }
       }
       while (!ok);
@@ -72,7 +77,18 @@ namespace SQLServerTools.Views
 
     private void DisconnectButton_Click(object sender, RoutedEventArgs e)
     {
+      var ctx = this.DataContext as BasePanelViewModel;
+      ctx.RemoveDbContext();
+      PART_DisconnectMenuItem.IsEnabled = false;
+    }
 
+    private void ToggleButton_Loaded(object sender, RoutedEventArgs e)
+    {
+        var btn = (ToggleButton)sender;
+     
+        btn.SetBinding(ToggleButton.IsCheckedProperty, new Binding("IsOpen") { Source = btn.ContextMenu });
+        btn.ContextMenu.PlacementTarget = btn;
+        btn.ContextMenu.Placement = PlacementMode.Top;
     }
   }
 }

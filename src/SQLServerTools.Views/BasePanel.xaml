@@ -75,6 +75,7 @@
                 Header="Connect" 
                 Click="ConnectButton_Click"  VerticalAlignment="Bottom"/>
               <MenuItem 
+                x:Name="PART_DisconnectMenuItem"
                 Header="Disconnect" 
                 Click="DisconnectButton_Click"  VerticalAlignment="Bottom"/>
             </ContextMenu>
