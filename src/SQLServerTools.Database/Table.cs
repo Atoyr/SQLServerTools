@@ -146,7 +146,6 @@ namespace SQLServerTools.Database
 
       return tables;
     }
-
   }
 }
 
