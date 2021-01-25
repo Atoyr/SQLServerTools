@@ -97,17 +97,16 @@ namespace SQLServerTools.Database
       }
 
       DataSet ds = new DataSet();
-      IList<Table> tables = new List<Table>();
       try
       {
         using(var conn = new SqlConnection(builder.ConnectionString))
-        using(var cmd = new SqlCommand(Query))
-        using(var adapter = new SqlDataAdapter())
-        {
-          cmd.Connection = conn;
-          cmd.CommandType = CommandType.Text;
-          adapter.Fill(ds);
-        }
+          using(var cmd = new SqlCommand(Query))
+          using(var adapter = new SqlDataAdapter())
+          {
+            cmd.Connection = conn;
+            cmd.CommandType = CommandType.Text;
+            adapter.Fill(ds);
+          }
       }
       catch (Exception e)
       {
@@ -118,32 +117,42 @@ namespace SQLServerTools.Database
       if (ds.Tables.Count == 1)
       {
         var dt = ds.Tables[0];
-        foreach (DataRow row in dt.Rows)
-        {
-          var t = new Table()
-          {
-            ObjectId = (int)row["ObjectId"],
-            DatabaseId = (int)row["DatabaseId"],
-            DatabaseName = (string)row["DatabaseName"],
-            SchemeId = (int)row["SchemeId"],
-            SchemeName = (string)row["SchemeName"],
-            Name = (string)row["Name"],
-            CreateDate = (DateTime)row["CreateDate"],
-            ModifyDate = (DateTime)row["ModifyDate"],
-            ReservedSizeMb = (int)row["ReservedSizeMb"],
-            DataSizeMb = (int)row["DataSizeMb"],
-            IndexSizeMb = (int)row["IndexSizeMb"],
-            UnusedSizeMb = (int)row["UnusedSizeMb"],
-            RowCount = (int)row["RowCount"],
-            ColumnCount = (int)row["ColumnCount"],
-            IndexCount = (int)row["IndexCount"],
-            TriggerCount = (int)row["TriggerCount"],
-            StatsCount = (int)row["StatsCount"]
-          };
-          tables.Add(t);
-        }
+        return GetTables(dt);
       }
+      else
+      {
+        // TODO
+        throw new Exception("data not found");
+      }
+    }
 
+    public static IEnumerable<Table> GetTables(DataTable dt)
+    {
+      IList<Table> tables = new List<Table>();
+      foreach (DataRow row in dt.Rows)
+      {
+        var t = new Table()
+        {
+          ObjectId = (int)row["ObjectId"],
+          DatabaseId = (int)row["DatabaseId"],
+          DatabaseName = (string)row["DatabaseName"],
+          SchemeId = (int)row["SchemeId"],
+          SchemeName = (string)row["SchemeName"],
+          Name = (string)row["Name"],
+          CreateDate = (DateTime)row["CreateDate"],
+          ModifyDate = (DateTime)row["ModifyDate"],
+          ReservedSizeMb = (int)row["ReservedSizeMb"],
+          DataSizeMb = (int)row["DataSizeMb"],
+          IndexSizeMb = (int)row["IndexSizeMb"],
+          UnusedSizeMb = (int)row["UnusedSizeMb"],
+          RowCount = (int)row["RowCount"],
+          ColumnCount = (int)row["ColumnCount"],
+          IndexCount = (int)row["IndexCount"],
+          TriggerCount = (int)row["TriggerCount"],
+          StatsCount = (int)row["StatsCount"]
+        };
+        tables.Add(t);
+      }
       return tables;
     }
   }
