@@ -30,7 +30,6 @@ namespace SQLServerTools.Views
   {
     private bool isHandlingPanelViewModelsChanged = false;
     protected IList<TabControl> tabControls = new List<TabControl>();
-    
 
     public MainPanel()
     {
@@ -39,7 +38,7 @@ namespace SQLServerTools.Views
       PART_DisconnectMenuItem.IsEnabled = false;
     }
 
-    private TabControl AddTab()
+    private TabControl NewTab()
     {
       var t = new TabControl();
       tabControls.Add(t);
@@ -48,25 +47,28 @@ namespace SQLServerTools.Views
 
     private TabItem AddTabItem(string contentTitle, UIElement element)
     {
-      if (tabControls.Count == 0)
-      {
-        AddTab();
-      }
       return AddTabItem(0, contentTitle, element);
     }
 
     private TabItem AddTabItem(int index, string contentTitle, UIElement element)
     {
-      if (tabControls.Count > index )
+      if (tabControls.Count < index )
       {
         return null;
       }
-      var t = tabControls[index];
+      if (tabControls.Count == 0)
+      {
+        var t = NewTab();
+        Grid.SetRow(t, 0);
+        Grid.SetColumn(t, 0);
+        PART_MainGrid.Children.Add(t);
+      }
+      var tab = tabControls[index];
       var item = new TabItem();
       item.Header = contentTitle;
       item.Content = element;
-      var i = t.Items.Add(item);
-      t.SelectedIndex = i;
+      var i = tab.Items.Add(item);
+      tab.SelectedIndex = i;
 
       return item;
     }
@@ -89,7 +91,7 @@ namespace SQLServerTools.Views
       // element設置
       var cd = new ColumnDefinition();
       PART_MainGrid.ColumnDefinitions.Add(cd);
-      var t = AddTab();
+      var t = NewTab();
       Grid.SetRow(t, 0);
       Grid.SetColumn(t, PART_MainGrid.ColumnDefinitions.Count - 1);
       PART_MainGrid.Children.Add(t);
