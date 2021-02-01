@@ -22,11 +22,22 @@
   Height="600" 
   Width="800"
   >
-<controls:MetroWindow.LeftWindowCommands>
+<!--<controls:MetroWindow.LeftWindowCommands>
   <controls:WindowCommands>
-    <views:MenuPanel />
+    <views:Menu />
   </controls:WindowCommands>
-</controls:MetroWindow.LeftWindowCommands>
-<views:BasePanel 
-  DataContext="{Binding BasePanelViewModel}" />
+  </controls:MetroWindow.LeftWindowCommands> -->
+<Grid>
+<Grid.RowDefinitions>
+  <RowDefinition Height="29" />
+  <RowDefinition Height="*"/>
+</Grid.RowDefinitions> 
+  <views:Menu 
+    Grid.Row="0"
+    DataContext="{Binding MenuViewModel}"
+    />
+  <views:MainPanel
+    Grid.Row="1"
+    DataContext="{Binding MainPanelViewModel}" />
+</Grid>
 </controls:MetroWindow>

@@ -23,12 +23,13 @@ namespace SQLServerTools.Views
   /// <summary>
   /// Editor.xaml の相互作用ロジック
   /// </summary>
-  public partial class MenuPanel : UserControl
+  public partial class TablePanel : UserControl
   {
-    public MenuPanel()
+    public TablePanel()
     {
       InitializeComponent();
     }
   }
 }
+
 

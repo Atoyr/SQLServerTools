@@ -25,7 +25,8 @@ namespace SQLServerTools
 
     public void RegisterTypes(IContainerRegistry containerRegistry)
     {
-      containerRegistry.Register<BasePanelViewModel>();
+      containerRegistry.Register<MainPanelViewModel>();
+      containerRegistry.Register<MenuViewModel>();
     }
   }
 }

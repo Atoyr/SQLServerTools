@@ -20,11 +20,12 @@ using SQLServerTools.Database;
 
 namespace SQLServerTools.ViewModels
 {
-  public partial class BasePanelViewModel : ViewModelBase
+  public class MainPanelViewModel : ViewModelBase
   {
     public ReactiveProperty<string> LeftStatusMessage { get; } = new ReactiveProperty<string>();
     public ReactiveProperty<string> CenterStatusMessage { get; } = new ReactiveProperty<string>();
     public ReactiveProperty<string> RightStatusMessage { get; } = new ReactiveProperty<string>();
+    public ObservableCollection<ViewModelBase> PanelViewModels { get; } = new ObservableCollection<ViewModelBase>();
 
     // public ReactiveProperty<string> ServerName { get; } = new ReactiveProperty<string>();
     // public ReactiveProperty<bool> IntegratedSecurity { get; } = new ReactiveProperty<bool>();
@@ -42,6 +43,7 @@ namespace SQLServerTools.ViewModels
       eventAggregator.GetEvent<ChangeRequestLeftStatusMessageEvent>().Subscribe(ChangeLeftStatusMessage);
       eventAggregator.GetEvent<ChangeRequestCenterStatusMessageEvent>().Subscribe(ChangeCenterStatusMessage);
       eventAggregator.GetEvent<ChangeRequestRightStatusMessageEvent>().Subscribe(ChangeRightStatusMessage);
+      eventAggregator.GetEvent<AddPanel>().Subscribe(AddPanel);
     }
 
     public (bool ok, string message) UpdateDbContext(string server, bool integratedSecurity, string username, string password)
@@ -107,6 +109,19 @@ namespace SQLServerTools.ViewModels
     private void ChangeRightStatusMessage(string message)
     {
       RightStatusMessage.Value = message;
+    }
+
+    private void AddPanel(string panelName)
+    {
+      switch(panelName)
+      {
+        case "Table":
+          var vm = new TablePanelViewModel();
+          PanelViewModels.Add(vm);
+          break;
+        default:
+          break;
+      }
     }
 
     private (bool ok, string message) UpdateDbVersionMessage()

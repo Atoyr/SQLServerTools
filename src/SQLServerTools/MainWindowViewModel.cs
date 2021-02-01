@@ -21,7 +21,10 @@ namespace SQLServerTools
     public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>();
 
     [Dependency]
-    public BasePanelViewModel BasePanelViewModel { get; set; }
+    public MainPanelViewModel MainPanelViewModel { get; set; }
+
+    [Dependency]
+    public MenuViewModel MenuViewModel { get; set; }
 
     public override void Initialize(IUnityContainer unityContainer)
     {

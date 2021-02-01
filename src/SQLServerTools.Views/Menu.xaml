@@ -1,5 +1,5 @@
 <UserControl 
-  x:Class="SQLServerTools.Views.MenuPanel"
+  x:Class="SQLServerTools.Views.Menu"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,12 +18,11 @@
   FontSize="14"
   Background="{DynamicResource MahApps.Brushes.Accent}"
   Height="29">
-      <MenuItem Header="ファイル(_F)">
-        <MenuItem Header="新規作成(_N)" Command="{Binding NewEditorCommand}"/>
-        <MenuItem Header="開く(_O)" Command="{Binding OpenEditorCommand}"/>
-        <MenuItem Header="上書き保存(_S)" Command="{Binding SaveEditorCommand}"  />
-        <MenuItem Header="名前を付けて保存(_A)" Command="{Binding SaveAsEditorCommand}" />
-        <MenuItem Header="閉じる(_C)" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
+      <MenuItem Header="File(_F)">
+        <MenuItem Header="Close Window(_C)" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
+      </MenuItem>
+      <MenuItem Header="Action(_A)">
+        <MenuItem Header="Table List(_T)" Command="{Binding AddTablePanel}"/>
       </MenuItem>
     </Menu>
 </Grid>

@@ -11,13 +11,13 @@ namespace SQLServerTools.Database
   {
     private const string Query =
       "use master "
-      + "SELECT "
-      + " name                 as Name"
-      + ",database_id          as DatabaseId"
-      + ",create_date          as CreareDate"
-      + ",state_desc           as Status"
-      + ",recovery_model_desc  as RecoveryModel"
-      + "FROM sys.databases";
+      + " SELECT "
+      + "  name                 as Name"
+      + " ,database_id          as DatabaseId"
+      + " ,create_date          as CreateDate"
+      + " ,state_desc           as Status"
+      + " ,recovery_model_desc  as RecoveryModel"
+      + " FROM sys.databases";
 
     public string Name { get; set; }
     public int Id { get; set; }
@@ -48,6 +48,7 @@ namespace SQLServerTools.Database
         {
           cmd.Connection = conn;
           cmd.CommandType = CommandType.Text;
+          adapter.SelectCommand = cmd;
           adapter.Fill(ds);
         }
       }
