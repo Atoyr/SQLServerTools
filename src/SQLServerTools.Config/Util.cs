@@ -20,7 +20,7 @@ namespace SQLServerTools.Config
       return configDir;
     }
 
-    public static T Load<T>(string folderName, string fileName)
+    public static T Load<T> (string folderName, string fileName) where T : new() 
     {
       var path = Path.Combine(folderName, fileName);
       if (!File.Exists(path))
@@ -34,7 +34,7 @@ namespace SQLServerTools.Config
       }
     }
 
-    public static void Save(string folderName, string filePath, object obj)
+    public static void Save(string folderName, string fileName, object obj)
     {
       var path = Path.Combine(folderName, fileName);
       if (!Directory.Exists(folderName))

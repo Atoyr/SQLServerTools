@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SQLServerTools.ViewModels\SQLServerTools.ViewModels.csproj" />
+    <ProjectReference Include="..\SQLServerTools.Config\SQLServerTools.Config.csproj" />
   </ItemGroup>
 
 </Project>

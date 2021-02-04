@@ -14,12 +14,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Windows.Controls.Primitives;
 using System.Reflection;
+using Prism.Ioc;
+using Prism.Unity;
+using Unity;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using SQLServerTools.Views.Dialogs;
 using SQLServerTools.ViewModels;
-using System.Windows.Controls.Primitives;
+using SQLServerTools.Config;
 
 namespace SQLServerTools.Views
 {
@@ -33,10 +37,12 @@ namespace SQLServerTools.Views
 
     private MenuItem PART_ConnectMenuItem = new MenuItem();
     private MenuItem PART_DisconnectMenuItem = new MenuItem();
+    private IUnityContainer Container;
 
     public MainPanel()
     {
       InitializeComponent();
+      Container = Prism.Ioc.ContainerLocator.Container.GetContainer();
       DataContextChanged += DataContextChangedEventHandler;
       PART_ConnectMenuItem.Header = "Connect";
       PART_ConnectMenuItem.Click += ConnectButton_Click;
@@ -178,12 +184,14 @@ namespace SQLServerTools.Views
     private async void ConnectButton_Click(object sender, RoutedEventArgs e)
     {
       var ctx = this.DataContext as MainPanelViewModel;
+      var config = Container.Resolve<Config.DbConnection>();
       var setting = new DbLoginDialogSettings()
       {
         IntegratedSecurityCheckBoxVisibility = Visibility.Visible,
         // IntegratedSecurityCheckBoxText = "Windows認証",
         NegativeButtonVisibility = Visibility.Visible,
         // NegativeButtonText = "キャンセル"
+        ServerNames = config.ServerNames,
       };
 
       bool ok = false;
@@ -214,6 +222,8 @@ namespace SQLServerTools.Views
         else 
         {
           PART_DisconnectMenuItem.IsEnabled = true;
+          config.InsertServer(result.Servername);
+          config.Save();
         }
       }
       while (!ok);

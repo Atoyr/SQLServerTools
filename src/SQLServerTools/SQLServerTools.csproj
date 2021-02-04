@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SQLServerTools.Views\SQLServerTools.Views.csproj" />
     <ProjectReference Include="..\SQLServerTools.ViewModels\SQLServerTools.ViewModels.csproj" />
+    <ProjectReference Include="..\SQLServerTools.Config\SQLServerTools.Config.csproj" />
   </ItemGroup>
 
 </Project>

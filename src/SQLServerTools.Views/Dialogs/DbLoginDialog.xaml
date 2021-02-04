@@ -25,7 +25,21 @@
     Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     TextWrapping="Wrap" />
-  <TextBox x:Name="PART_TextBox"
+  <ComboBox x:Name="PART_ComboBox"
+    Margin="0 5 0 0"
+    mah:TextBoxHelper.SelectAllOnFocus="True"
+    mah:TextBoxHelper.Watermark="{Binding ServernameWatermark, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    mah:VisibilityHelper.IsCollapsed="{Binding ShouldHideServername, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    IsEditable="True"
+    IsEnabled="True"
+    ItemsSource="{Binding Servernames, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    Style="{DynamicResource MahApps.Styles.ComboBox.Virtualized}"
+    FontSize="{Binding DialogMessageFontSize, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    Text="{Binding Servername, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+    >
+  </ComboBox>
+  <!--<TextBox x:Name="PART_TextBox"
     Grid.Row="1"
     Margin="0 5 0 0"
     mah:TextBoxHelper.SelectAllOnFocus="True"
@@ -35,7 +49,7 @@
     FontSize="{Binding DialogMessageFontSize, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
     Text="{Binding Servername, RelativeSource={RelativeSource AncestorType=local:DbLoginDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
-    TextWrapping="Wrap" />
+  TextWrapping="Wrap" /> -->
   <CheckBox x:Name="PART_IntegratedSecurity"
     Grid.Row="2"
     Margin="0 5 0 0"

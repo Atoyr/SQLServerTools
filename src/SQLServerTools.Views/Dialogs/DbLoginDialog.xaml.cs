@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,6 +40,15 @@ namespace SQLServerTools.Views.Dialogs
     {
       get { return (string)this.GetValue(UsernameProperty); }
       set { this.SetValue(UsernameProperty, value); }
+    }
+
+    /// <summary>Identifies the <see cref="Servernames"/> dependency property.</summary>
+    public static readonly DependencyProperty ServernamesProperty = DependencyProperty.Register(nameof(Servernames), typeof(IEnumerable<string>), typeof(DbLoginDialog), new PropertyMetadata(new List<string>()));
+
+    public IEnumerable<string> Servernames
+    {
+      get { return (IEnumerable<string>)this.GetValue(ServernamesProperty); }
+      set { this.SetValue(ServernamesProperty, value); }
     }
 
     /// <summary>Identifies the <see cref="ServernameWatermark"/> dependency property.</summary>
@@ -204,6 +214,7 @@ namespace SQLServerTools.Views.Dialogs
       this.Servername = settings.InitialServername;
       this.Username = settings.InitialUsername;
       this.Password = settings.InitialPassword;
+      this.Servernames = settings.ServerNames;
       this.UsernameCharacterCasing = settings.UsernameCharacterCasing;
       this.ServernameWatermark = settings.ServernameWatermark;
       this.UsernameWatermark = settings.UsernameWatermark;
@@ -224,9 +235,9 @@ namespace SQLServerTools.Views.Dialogs
       this.Dispatcher.BeginInvoke(new Action(() =>
             {
             this.Focus();
-            if (string.IsNullOrEmpty(this.PART_TextBox.Text) && !this.ShouldHideServername)
+            if (string.IsNullOrEmpty(this.PART_ComboBox.Text) && !this.ShouldHideServername)
             {
-            this.PART_TextBox.Focus();
+            this.PART_ComboBox.Focus();
             }
             else if (string.IsNullOrEmpty(this.PART_TextBox2.Text) && !this.ShouldHideUsername)
             {
@@ -250,7 +261,7 @@ namespace SQLServerTools.Views.Dialogs
 
       Action cleanUpHandlers = () =>
       {
-        this.PART_TextBox.KeyDown -= affirmativeKeyHandler;
+        this.PART_ComboBox.KeyDown -= affirmativeKeyHandler;
         this.PART_TextBox2.KeyDown -= affirmativeKeyHandler;
         this.PART_TextBox3.KeyDown -= affirmativeKeyHandler;
 
@@ -340,7 +351,7 @@ namespace SQLServerTools.Views.Dialogs
       this.PART_NegativeButton.KeyDown += negativeKeyHandler;
       this.PART_AffirmativeButton.KeyDown += affirmativeKeyHandler;
 
-      this.PART_TextBox.KeyDown += affirmativeKeyHandler;
+      this.PART_ComboBox.KeyDown += affirmativeKeyHandler;
       this.PART_TextBox2.KeyDown += affirmativeKeyHandler;
       this.PART_TextBox3.KeyDown += affirmativeKeyHandler;
 
@@ -395,7 +406,7 @@ namespace SQLServerTools.Views.Dialogs
       {
         case MetroDialogColorScheme.Accented:
           this.PART_NegativeButton.SetResourceReference(StyleProperty, "MahApps.Styles.Button.Dialogs.AccentHighlight");
-          this.PART_TextBox.SetResourceReference(ForegroundProperty, "MahApps.Brushes.ThemeForeground");
+          this.PART_ComboBox.SetResourceReference(ForegroundProperty, "MahApps.Brushes.ThemeForeground");
           this.PART_TextBox2.SetResourceReference(ForegroundProperty, "MahApps.Brushes.ThemeForeground");
           this.PART_TextBox3.SetResourceReference(ForegroundProperty, "MahApps.Brushes.ThemeForeground");
           break;

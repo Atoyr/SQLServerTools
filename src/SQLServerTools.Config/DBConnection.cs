@@ -3,17 +3,21 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace SQLServerTools.Config
 {
   public class DbConnection
   {
     [JsonProperty("ServerName")]
-    internal List<string> ServerNames { get; private set; } = new List<string>();
+    public List<string> ServerNames { get; private set; } = new List<string>();
     [JsonProperty("HistSize")]
     public int HistSize { get; set; } = 10;
 
-    internal DbConnection() { }
+    private string folderName { set; get; }
+    private string fileName { set; get; }
+
+    public DbConnection() { }
 
     public void InsertServer(string serverName)
     {
@@ -28,6 +32,20 @@ namespace SQLServerTools.Config
       {
         ServerNames.RemoveRange(HistSize, ServerNames.Count);
       }
+    }
+
+    public static DbConnection Load()
+    {
+      var path = Util.CreateConfigDirectoryIfNotExists("SqlServerTools");
+      var v = Util.Load<Config.DbConnection>(path, "dbConnection");
+      v.folderName = path;
+      v.fileName = "dbConnection";
+      return v;
+    }
+
+    public void Save()
+    {
+      Util.Save(folderName, fileName, this);
     }
   }
 }

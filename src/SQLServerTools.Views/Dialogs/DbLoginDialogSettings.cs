@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -18,6 +19,7 @@ namespace SQLServerTools.Views.Dialogs
       this.ServernameWatermark = DefaultServernameWatermark;
       this.UsernameWatermark = DefaultUsernameWatermark;
       this.UsernameCharacterCasing = CharacterCasing.Normal;
+      this.ServerNames = new List<string>();
       this.PasswordWatermark = DefaultPasswordWatermark;
       this.NegativeButtonVisibility = Visibility.Collapsed;
       this.ShouldHideServername = false;
@@ -37,6 +39,8 @@ namespace SQLServerTools.Views.Dialogs
     public string InitialUsername { get; set; }
 
     public string InitialPassword { get; set; }
+
+    public IEnumerable<string> ServerNames { get; set; }
 
     public string ServernameWatermark { get; set; }
 

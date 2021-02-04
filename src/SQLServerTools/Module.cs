@@ -1,8 +1,10 @@
+using System.IO;
 using Unity;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Ioc;
 using SQLServerTools.ViewModels;
+using SQLServerTools.Config;
 
 namespace SQLServerTools
 {
@@ -27,6 +29,7 @@ namespace SQLServerTools
     {
       containerRegistry.Register<MainPanelViewModel>();
       containerRegistry.Register<MenuViewModel>();
+      containerRegistry.RegisterInstance<Config.DbConnection>(Config.DbConnection.Load());
     }
   }
 }
