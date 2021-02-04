@@ -14,7 +14,38 @@
 <UserControl.Resources>
 </UserControl.Resources>
 <Grid>
-  <DataGrid ItemsSource="{Binding Tables}" />
+  <Grid.RowDefinitions>
+    <RowDefinition Height="50" />
+    <RowDefinition Height="Auto" />
+  </Grid.RowDefinitions>
+
+  <ComboBox Width="200"
+    Grid.Row="0"
+    ItemsSource="{Binding DatabaseList}"
+    SelectedIndex="{Binding SelectIndex.Value}"
+    SelectionChanged="ComboBox_SelectionChangedEvent"
+    >
+  </ComboBox>
+  <DataGrid 
+    Grid.Row="1"
+    AutoGenerateColumns="False"
+    ItemsSource="{Binding Tables}" >
+    <DataGrid.Columns>
+      <DataGridTextColumn Binding="{Binding DatabaseName}" Header="Database" />
+      <DataGridTextColumn Binding="{Binding SchemaTableName}" Header="Name" />
+      <DataGridTextColumn Binding="{Binding CreateDate}" Header="CreateDate" />
+      <DataGridTextColumn Binding="{Binding ModifyDate}" Header="ModifyDate" />
+      <DataGridTextColumn Binding="{Binding RowCount}" Header="RowCount" />
+      <DataGridTextColumn Binding="{Binding DataSizeMb}" Header="DataSizeMb" />
+      <DataGridTextColumn Binding="{Binding IndexSizeMb}" Header="IndexSizeMb" />
+      <DataGridTextColumn Binding="{Binding UnusedSizeMb}" Header="UnusedSizeMb" />
+      <DataGridTextColumn Binding="{Binding ColumnCount}" Header="ColumnCount" />
+      <DataGridTextColumn Binding="{Binding IndexCount}" Header="IndexCount" />
+      <DataGridTextColumn Binding="{Binding TriggerCount}" Header="TriggerCount" />
+      <DataGridTextColumn Binding="{Binding StatsCount}" Header="StatsCount" />
+    </DataGrid.Columns>
+
+  </DataGrid>
 </Grid>
 </UserControl>
 

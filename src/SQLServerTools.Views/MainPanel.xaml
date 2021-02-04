@@ -65,6 +65,7 @@
         Text="{Binding CenterStatusMessage.Value}"/>
     </Label>
     <ToggleButton 
+      x:Name="PART_RightToggleButton"
       Background="{DynamicResource MahApps.Brushes.Accent}"
       Grid.Column="2"
       Height="21"
@@ -73,17 +74,10 @@
       Padding="0,0,0,0"
       BorderThickness="0"
       Loaded="ToggleButton_Loaded">
-        <ToggleButton.ContextMenu>
-            <ContextMenu>
-              <MenuItem 
-                Header="Connect" 
-                Click="ConnectButton_Click"  VerticalAlignment="Bottom"/>
-              <MenuItem 
-                x:Name="PART_DisconnectMenuItem"
-                Header="Disconnect" 
-                Click="DisconnectButton_Click"  VerticalAlignment="Bottom"/>
-            </ContextMenu>
-        </ToggleButton.ContextMenu>
+      <ToggleButton.ContextMenu>
+        <ContextMenu>
+        </ContextMenu>
+      </ToggleButton.ContextMenu>
         <WrapPanel Margin="5,0">
           <TextBlock 
             Text="{Binding RightStatusMessage.Value}"/>

@@ -23,10 +23,9 @@ namespace SQLServerTools.ViewModels
 {
   public class TablePanelViewModel : ViewModelBase
   {
-    private const string DefaultDatabase = "master";
     public ObservableCollection<DataModels.Table> Tables { get; } = new ObservableCollection<DataModels.Table>();
     public ObservableCollection<string> DatabaseList { get; } = new ObservableCollection<string>();
-    public ReactiveProperty<string> TargetDatabase { get; } = new ReactiveProperty<string>();
+    public ReactiveProperty<int> SelectIndex { get; } = new ReactiveProperty<int>();
 
     public override void Initialize(IUnityContainer container)
     {
@@ -38,7 +37,7 @@ namespace SQLServerTools.ViewModels
       }
 
       DatabaseList.AddRange(Database.Database.GetDatabases(builder.ConnectionString).Select(x => x.Name));
-      TargetDatabase.Value = DefaultDatabase;
+      SelectIndex.Value = 0;
       FetchTables();
     }
 
@@ -52,7 +51,7 @@ namespace SQLServerTools.ViewModels
       Tables.Clear();
       try
       {
-        Tables.AddRange(Database.Table.GetTables(builder.ConnectionString, TargetDatabase.Value).Select(x => DataModels.Table.ConvertTable(x)));
+        Tables.AddRange(Database.Table.GetTables(builder.ConnectionString, DatabaseList[SelectIndex.Value]).Select(x => DataModels.Table.ConvertTable(x)));
       }
       catch (Exception e)
       {

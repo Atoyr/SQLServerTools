@@ -26,6 +26,7 @@ namespace SQLServerTools.ViewModels
     public ReactiveProperty<string> CenterStatusMessage { get; } = new ReactiveProperty<string>();
     public ReactiveProperty<string> RightStatusMessage { get; } = new ReactiveProperty<string>();
     public ObservableCollection<ViewModelBase> PanelViewModels { get; } = new ObservableCollection<ViewModelBase>();
+    public ObservableCollection<string> Databases { get; } = new ObservableCollection<string>();
 
     // public ReactiveProperty<string> ServerName { get; } = new ReactiveProperty<string>();
     // public ReactiveProperty<bool> IntegratedSecurity { get; } = new ReactiveProperty<bool>();
@@ -49,6 +50,7 @@ namespace SQLServerTools.ViewModels
     public (bool ok, string message) UpdateDbContext(string server, bool integratedSecurity, string username, string password)
     {
       var builder = new SqlConnectionStringBuilder(); 
+      User user;
       try 
       {
         builder.DataSource = server;
@@ -64,6 +66,7 @@ namespace SQLServerTools.ViewModels
         }
 
         Common.Ping(builder.ConnectionString);
+        user = User.GetUser(builder.ConnectionString);
       }
       catch (Exception e)
       {
@@ -71,9 +74,14 @@ namespace SQLServerTools.ViewModels
       }
 
       Container.RegisterInstance<DbConnectionStringBuilder>(builder);
-      ChangeRightStatusMessage($"{builder.DataSource} : master : {builder.UserID}");
+      ChangeRightStatusMessage($"{builder.DataSource} : {user.DefaultDbName} : {user.Name}");
 
       var (ok, message) = UpdateDbVersionMessage();
+      if (!ok)
+      {
+        return (false, message);
+      }
+      (ok, message) = UpdateDatabases();
       if (!ok)
       {
         return (false, message);
@@ -92,8 +100,54 @@ namespace SQLServerTools.ViewModels
       {
         return false;
       }
+      (ok, _) = UpdateDatabases();
+      if (!ok)
+      {
+        return (false);
+      }
 
-      return false;
+      return true;
+    }
+
+    public (bool ok, string message) ChangeUseDatabase(string databaseName)
+    {
+      bool ok = false;
+      string message = string.Empty;
+      var builder = Container.Resolve<DbConnectionStringBuilder>();
+      var connString = builder.ConnectionString;
+      if (string.IsNullOrEmpty(connString))
+      {
+        ok = false;
+        message = "DB Not Connecting";
+      }
+      else
+      {
+        try
+        {
+          var dbs = Database.Database.GetDatabases(connString);
+          var result = dbs.Any(x => x.Name.ToUpper() == databaseName.ToUpper());
+          if (!result)
+          {
+            ok = false;
+            message = "database not found";
+          }
+          else 
+          {
+            if (builder is SqlConnectionStringBuilder b)
+            {
+              b.InitialCatalog = databaseName;
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          ok = false;
+          message = e.Message;
+        }
+      }
+
+      return (ok, message);
+
     }
 
     private void ChangeLeftStatusMessage(string message)
@@ -151,6 +205,36 @@ namespace SQLServerTools.ViewModels
       }
 
       return (ok, message);
+    }
+
+    private (bool ok, string message) UpdateDatabases()
+    {
+      bool ok = false;
+      string message = string.Empty;
+      var builder = Container.Resolve<DbConnectionStringBuilder>();
+      var connString = builder.ConnectionString;
+      Databases.Clear();
+      if (string.IsNullOrEmpty(connString))
+      {
+        ok = true;
+      }
+      else
+      {
+        try
+        {
+          var dbs = Database.Database.GetDatabases(connString);
+          Databases.AddRange(dbs.Select(x => x.Name));
+          ok = true;
+        }
+        catch (Exception e)
+        {
+          ok = false;
+          message = e.Message;
+        }
+      }
+
+      return (ok, message);
+
     }
   }
 }

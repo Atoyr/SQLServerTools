@@ -15,8 +15,8 @@ namespace SQLServerTools.Database
       + " t.object_id as ObjectId "
       + " ,db_id() as DatabaseId "
       + " ,db_name() as DatabaseName "
-      + " ,s.schema_id as ShemaId "
-      + " ,s.name as ShemaName "
+      + " ,s.schema_id as SchemaId "
+      + " ,s.name as SchemaName "
       + " ,t.name as Name "
       + " ,t.create_date as CreateDate "
       + " ,t.modify_date as ModifyDate "
@@ -67,16 +67,16 @@ namespace SQLServerTools.Database
     public int ObjectId { set; get; }
     public int DatabaseId { set; get; }
     public string DatabaseName { set; get; }
-    public int SchemeId { set; get; }
-    public string SchemeName { set; get; }
+    public int SchemaId { set; get; }
+    public string SchemaName { set; get; }
     public string Name { set; get; }
     public DateTime CreateDate { set; get; }
     public DateTime ModifyDate { set; get; }
-    public int ReservedSizeMb { set; get; }
-    public int DataSizeMb { set; get; }
-    public int IndexSizeMb { set; get; }
-    public int UnusedSizeMb { set; get; }
-    public int RowCount { set; get; }
+    public long ReservedSizeMb { set; get; }
+    public long DataSizeMb { set; get; }
+    public long IndexSizeMb { set; get; }
+    public long UnusedSizeMb { set; get; }
+    public long RowCount { set; get; }
     public int ColumnCount { set; get; }
     public int IndexCount { set; get; }
     public int TriggerCount { set; get; }
@@ -105,6 +105,7 @@ namespace SQLServerTools.Database
           {
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
+            adapter.SelectCommand = cmd;
             adapter.Fill(ds);
           }
       }
@@ -134,18 +135,18 @@ namespace SQLServerTools.Database
         var t = new Table()
         {
           ObjectId = (int)row["ObjectId"],
-          DatabaseId = (int)row["DatabaseId"],
+          DatabaseId = (short)row["DatabaseId"],
           DatabaseName = (string)row["DatabaseName"],
-          SchemeId = (int)row["SchemeId"],
-          SchemeName = (string)row["SchemeName"],
+          SchemaId = (int)row["SchemaId"],
+          SchemaName = (string)row["SchemaName"],
           Name = (string)row["Name"],
           CreateDate = (DateTime)row["CreateDate"],
           ModifyDate = (DateTime)row["ModifyDate"],
-          ReservedSizeMb = (int)row["ReservedSizeMb"],
-          DataSizeMb = (int)row["DataSizeMb"],
-          IndexSizeMb = (int)row["IndexSizeMb"],
-          UnusedSizeMb = (int)row["UnusedSizeMb"],
-          RowCount = (int)row["RowCount"],
+          ReservedSizeMb = (long)row["ReservedSize"] / 1024,
+          DataSizeMb = (long)row["DataSize"] / 1024,
+          IndexSizeMb = (long)row["IndexSize"] / 1024,
+          UnusedSizeMb = (long)row["UnusedSize"] / 1024,
+          RowCount = (long)row["RowCount"],
           ColumnCount = (int)row["ColumnCount"],
           IndexCount = (int)row["IndexCount"],
           TriggerCount = (int)row["TriggerCount"],

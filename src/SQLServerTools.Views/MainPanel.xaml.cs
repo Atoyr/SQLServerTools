@@ -31,11 +31,22 @@ namespace SQLServerTools.Views
     private bool isHandlingPanelViewModelsChanged = false;
     protected IList<TabControl> tabControls = new List<TabControl>();
 
+    private MenuItem PART_ConnectMenuItem = new MenuItem();
+    private MenuItem PART_DisconnectMenuItem = new MenuItem();
+
     public MainPanel()
     {
       InitializeComponent();
       DataContextChanged += DataContextChangedEventHandler;
+      PART_ConnectMenuItem.Header = "Connect";
+      PART_ConnectMenuItem.Click += ConnectButton_Click;
+      PART_ConnectMenuItem.VerticalAlignment = VerticalAlignment.Bottom;
+
+      PART_DisconnectMenuItem.Header = "Disconnect";
+      PART_DisconnectMenuItem.Click += DisconnectButton_Click;
+      PART_DisconnectMenuItem.VerticalAlignment = VerticalAlignment.Bottom;
       PART_DisconnectMenuItem.IsEnabled = false;
+
     }
 
     private TabControl NewTab()
@@ -113,7 +124,7 @@ namespace SQLServerTools.Views
       }
     }
 
-    private void PanelViewModelsCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+    private async void PanelViewModelsCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
     {
       switch (e.Action)
       {
@@ -123,13 +134,29 @@ namespace SQLServerTools.Views
             UserControl uc;
             var name = n.GetType().Name.Replace("ViewModel","");
 
-            switch (name) 
+            try 
             {
-              case "TablePanel":
-                uc = new TablePanel();
-                break;
-              default:
-                return;
+              switch (name) 
+              {
+                case "TablePanel":
+                  uc = new TablePanel();
+                  break;
+                default:
+                  return;
+              }
+            }
+            catch (Exception exception)
+            {
+              var dialogSetting = new MetroDialogSettings()
+              {
+                AffirmativeButtonText = "OK",
+                NegativeButtonText = "Cancel"
+              };
+              MetroWindow window = (MetroWindow)Application.Current.MainWindow;
+
+              var dialogResult = await window.ShowMessageAsync("Throw Exception", exception.Message,
+                  MessageDialogStyle.AffirmativeAndNegative, dialogSetting);
+              return;
             }
             uc.DataContext = n;
             var title = "new";
@@ -190,6 +217,7 @@ namespace SQLServerTools.Views
         }
       }
       while (!ok);
+      UpdateDatabaseList();
     }
 
     private void DisconnectButton_Click(object sender, RoutedEventArgs e)
@@ -197,15 +225,61 @@ namespace SQLServerTools.Views
       var ctx = this.DataContext as MainPanelViewModel;
       ctx.RemoveDbContext();
       PART_DisconnectMenuItem.IsEnabled = false;
+      UpdateDatabaseList();
+    }
+
+    private void DatabaseNameButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void UpdateDatabaseList()
+    {
+      Type type = DataContext.GetType();
+      if (type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Any(x => x.Name == "Databases"))
+      {
+         PropertyInfo prop = type.GetProperty("Databases");
+         object value = prop.GetValue(DataContext);
+         var dbs = value as IEnumerable<string>;
+         if (dbs != null)
+         {
+           UpdateToggleButton(
+               dbs.Select(
+                 x => { 
+                 var mi = new MenuItem();
+                   mi.Header = x;
+                   mi.Name = x;
+                   mi.Click += DatabaseNameButton_Click;
+                   mi.VerticalAlignment = VerticalAlignment.Bottom;
+                   return mi;
+                 }));
+         }
+      }
     }
 
     private void ToggleButton_Loaded(object sender, RoutedEventArgs e)
     {
-        var btn = (ToggleButton)sender;
-     
-        btn.SetBinding(ToggleButton.IsCheckedProperty, new Binding("IsOpen") { Source = btn.ContextMenu });
-        btn.ContextMenu.PlacementTarget = btn;
-        btn.ContextMenu.Placement = PlacementMode.Top;
+      var btn = (ToggleButton)sender;
+
+      btn.SetBinding(ToggleButton.IsCheckedProperty, new Binding("IsOpen") { Source = btn.ContextMenu });
+      btn.ContextMenu.PlacementTarget = btn;
+      btn.ContextMenu.Placement = PlacementMode.Top;
+      UpdateToggleButton(null);
+    }
+
+    private void UpdateToggleButton(IEnumerable<object> items)
+    {
+      PART_RightToggleButton.ContextMenu.Items.Clear();
+      if (items != null && items.Count() > 0)
+      {
+        foreach(var i in items)
+        {
+          PART_RightToggleButton.ContextMenu.Items.Add(i);
+        }
+        PART_RightToggleButton.ContextMenu.Items.Add(new Separator());
+      }
+      PART_RightToggleButton.ContextMenu.Items.Add(PART_ConnectMenuItem);
+      PART_RightToggleButton.ContextMenu.Items.Add(PART_DisconnectMenuItem);
     }
   }
 }

@@ -8,20 +8,30 @@ namespace SQLServerTools.ViewModels.DataModels
     public int ObjectId { set; get; }
     public int DatabaseId { set; get; }
     public string DatabaseName { set; get; }
-    public int SchemeId { set; get; }
-    public string SchemeName { set; get; }
+    public int SchemaId { set; get; }
+    public string SchemaName { set; get; }
     public string Name { set; get; }
     public DateTime CreateDate { set; get; }
     public DateTime ModifyDate { set; get; }
-    public int ReservedSizeMb { set; get; }
-    public int DataSizeMb { set; get; }
-    public int IndexSizeMb { set; get; }
-    public int UnusedSizeMb { set; get; }
-    public int RowCount { set; get; }
+    public long ReservedSizeMb { set; get; }
+    public long DataSizeMb { set; get; }
+    public long IndexSizeMb { set; get; }
+    public long UnusedSizeMb { set; get; }
+    public long RowCount { set; get; }
     public int ColumnCount { set; get; }
     public int IndexCount { set; get; }
     public int TriggerCount { set; get; }
     public int StatsCount { set; get; }
+
+    public string SchemaTableName 
+    {
+      get => SchemaName + "." + Name;
+    }
+
+    public string DatabaseSchemaTableName 
+    {
+      get => DatabaseName + "." + SchemaName + "." + Name;
+    }
 
     public static Table ConvertTable(SQLServerTools.Database.Table table) 
     {
@@ -30,8 +40,8 @@ namespace SQLServerTools.ViewModels.DataModels
         ObjectId = table.ObjectId,
         DatabaseId = table.DatabaseId,
         DatabaseName = table.DatabaseName,
-        SchemeId = table.SchemeId,
-        SchemeName = table.SchemeName,
+        SchemaId = table.SchemaId,
+        SchemaName = table.SchemaName,
         Name = table.Name,
         CreateDate = table.CreateDate,
         ModifyDate = table.ModifyDate,

@@ -29,6 +29,28 @@ namespace SQLServerTools.Views
     {
       InitializeComponent();
     }
+
+    public async void ComboBox_SelectionChangedEvent(object sender, SelectionChangedEventArgs e) 
+    {
+      var ctx = this.DataContext as TablePanelViewModel;
+      bool ok = false;
+      string message = string.Empty;
+
+      (ok, message) = ctx.FetchTables();
+      if (!ok)
+      {
+        var dialogSetting = new MetroDialogSettings()
+        {
+          AffirmativeButtonText = "OK",
+          NegativeButtonText = "Cancel"
+        };
+        MetroWindow window = (MetroWindow)Application.Current.MainWindow;
+
+        var dialogResult = await window.ShowMessageAsync("Throw Exception", message,
+            MessageDialogStyle.AffirmativeAndNegative, dialogSetting);
+        return;
+      }
+    }
   }
 }
 
