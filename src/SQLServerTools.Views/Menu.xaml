@@ -16,7 +16,6 @@
 <Grid>
   <Menu 
   FontSize="14"
-  Background="{DynamicResource MahApps.Brushes.Accent}"
   Height="29">
       <MenuItem Header="File(_F)">
         <MenuItem Header="Close Window(_C)" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />

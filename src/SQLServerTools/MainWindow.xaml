@@ -17,27 +17,22 @@
 
   TitleBarHeight="29"
   TitleAlignment="Center"
+  WindowTitleBrush="{DynamicResource MahApps.Brushes.ThemeBackground}"
+
   MinHeight="480"
   MinWidth="640"
   Height="600" 
   Width="800"
   >
-<!--<controls:MetroWindow.LeftWindowCommands>
+<controls:MetroWindow.LeftWindowCommands>
   <controls:WindowCommands>
-    <views:Menu />
-  </controls:WindowCommands>
-  </controls:MetroWindow.LeftWindowCommands> -->
-<Grid>
-<Grid.RowDefinitions>
-  <RowDefinition Height="29" />
-  <RowDefinition Height="*"/>
-</Grid.RowDefinitions> 
-  <views:Menu 
-    Grid.Row="0"
-    DataContext="{Binding MenuViewModel}"
+    <views:Menu 
+      DataContext="{Binding MenuViewModel}"
     />
+  </controls:WindowCommands>
+</controls:MetroWindow.LeftWindowCommands>
+<Grid>
   <views:MainPanel
-    Grid.Row="1"
     DataContext="{Binding MainPanelViewModel}" />
 </Grid>
 </controls:MetroWindow>
