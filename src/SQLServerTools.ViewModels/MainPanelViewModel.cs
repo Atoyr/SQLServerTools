@@ -86,6 +86,7 @@ namespace SQLServerTools.ViewModels
       {
         return (false, message);
       }
+      EventAggregator.GetEvent<ChangedHasDbConnection>().Publish(true);
 
       return (true, string.Empty);
     }
@@ -95,6 +96,7 @@ namespace SQLServerTools.ViewModels
       var builder = Container.Resolve<DbConnectionStringBuilder>();
       builder.Clear();
       ChangeRightStatusMessage(RightStatusMessage.Value = "Disconnected");
+      EventAggregator.GetEvent<ChangedHasDbConnection>().Publish(false);
       var (ok, _) = UpdateDbVersionMessage();
       if (!ok)
       {
