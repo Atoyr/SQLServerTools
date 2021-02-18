@@ -17,11 +17,11 @@
   <Menu 
   FontSize="14"
   Height="29">
-      <MenuItem Header="File(_F)">
-        <MenuItem Header="Close Window(_C)" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
+      <MenuItem Header="_File">
+        <MenuItem Header="_Close Window" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
       </MenuItem>
-      <MenuItem Header="Action(_A)">
-        <MenuItem Header="Table List(_T)" Command="{Binding AddTablePanel}"/>
+      <MenuItem Header="_Action">
+        <MenuItem Header="_Table List" Command="{Binding AddTablePanel}"/>
       </MenuItem>
     </Menu>
 </Grid>
