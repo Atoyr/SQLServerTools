@@ -15,12 +15,13 @@
 </UserControl.Resources>
 <Grid>
   <Grid.RowDefinitions>
-    <RowDefinition Height="50" />
-    <RowDefinition Height="Auto" />
+    <RowDefinition Height="24" />
+    <RowDefinition Height="*" />
   </Grid.RowDefinitions>
 
-  <ComboBox Width="200"
+  <ComboBox 
     Grid.Row="0"
+    Width="200"
     ItemsSource="{Binding DatabaseList}"
     SelectedIndex="{Binding SelectIndex.Value}"
     SelectionChanged="ComboBox_SelectionChangedEvent"
@@ -29,20 +30,23 @@
   <DataGrid 
     Grid.Row="1"
     AutoGenerateColumns="False"
+    ScrollViewer.CanContentScroll="True" 
+    ScrollViewer.VerticalScrollBarVisibility="Auto"
+    ScrollViewer.HorizontalScrollBarVisibility="Auto"
     ItemsSource="{Binding Tables}" >
     <DataGrid.Columns>
-      <DataGridTextColumn Binding="{Binding DatabaseName}" Header="Database" />
-      <DataGridTextColumn Binding="{Binding SchemaTableName}" Header="Name" />
-      <DataGridTextColumn Binding="{Binding CreateDate}" Header="CreateDate" />
-      <DataGridTextColumn Binding="{Binding ModifyDate}" Header="ModifyDate" />
-      <DataGridTextColumn Binding="{Binding RowCount}" Header="RowCount" />
-      <DataGridTextColumn Binding="{Binding DataSizeMb}" Header="DataSizeMb" />
-      <DataGridTextColumn Binding="{Binding IndexSizeMb}" Header="IndexSizeMb" />
-      <DataGridTextColumn Binding="{Binding UnusedSizeMb}" Header="UnusedSizeMb" />
-      <DataGridTextColumn Binding="{Binding ColumnCount}" Header="ColumnCount" />
-      <DataGridTextColumn Binding="{Binding IndexCount}" Header="IndexCount" />
-      <DataGridTextColumn Binding="{Binding TriggerCount}" Header="TriggerCount" />
-      <DataGridTextColumn Binding="{Binding StatsCount}" Header="StatsCount" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding DatabaseName}" Header="Database" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding SchemaTableName}" Header="Name" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding CreateDate}" Header="CreateDate" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModifyDate}" Header="ModifyDate" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding RowCount}" Header="RowCount" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding DataSizeMb}" Header="DataSizeMb" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding IndexSizeMb}" Header="IndexSizeMb" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding UnusedSizeMb}" Header="UnusedSizeMb" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding ColumnCount}" Header="ColumnCount" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding IndexCount}" Header="IndexCount" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding TriggerCount}" Header="TriggerCount" />
+      <DataGridTextColumn IsReadOnly="True" Binding="{Binding StatsCount}" Header="StatsCount" />
     </DataGrid.Columns>
 
   </DataGrid>

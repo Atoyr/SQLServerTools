@@ -18,7 +18,7 @@
   FontSize="14"
   Height="29">
       <MenuItem Header="_File">
-        <MenuItem Header="_Close Window" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=MainWindow}"  />
+        <MenuItem Header="_Exit" />
       </MenuItem>
       <MenuItem Header="_Action">
         <MenuItem Header="_Table List" Command="{Binding AddTablePanel}"/>
