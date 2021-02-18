@@ -84,6 +84,7 @@ namespace SQLServerTools.Views
       var item = new TabItem();
       item.Header = contentTitle;
       item.Content = element;
+      item.Style = FindResource("TabItemStyle") as Style;
       var i = tab.Items.Add(item);
       tab.SelectedIndex = i;
 

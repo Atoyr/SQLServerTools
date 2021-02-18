@@ -12,6 +12,28 @@
   d:DesignHeight="300" 
   d:DesignWidth="300">
 <UserControl.Resources>
+  <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
+    <Setter Property="BorderThickness" Value="0"/>      
+    <Setter Property="Padding" Value="0" />      
+    <Setter Property="HeaderTemplate">        
+      <Setter.Value>          
+        <DataTemplate>        
+          <Border x:Name="grid" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+            <ContentPresenter>
+              <ContentPresenter.Content>
+                <TextBlock x:Name="text" Margin="4" FontSize="15" Text="{TemplateBinding Content}" Foreground="{DynamicResource MahApps.Brushes.WindowTitleNonActive}"/>
+              </ContentPresenter.Content>             
+            </ContentPresenter>  
+          </Border>        
+          <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem}},Path=IsSelected}" Value="True">
+              <Setter TargetName="text" Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent2}"/>
+            </DataTrigger>
+          </DataTemplate.Triggers>
+        </DataTemplate>        
+      </Setter.Value>      
+    </Setter>    
+  </Style>  
 </UserControl.Resources>
 <Grid>
 <Grid.RowDefinitions>
