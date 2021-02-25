@@ -21,12 +21,11 @@ using SQLServerTools.ViewModels.DataModels;
 
 namespace SQLServerTools.ViewModels
 {
-  public class TablePanelViewModel : ViewModelBase
+  public class StatsPanelViewModel : ViewModelBase
   {
-    public ObservableCollection<DataModels.Table> Tables { get; } = new ObservableCollection<DataModels.Table>();
+    public ObservableCollection<DataModels.Stats> Stats { get; } = new ObservableCollection<DataModels.Stats>();
     public ObservableCollection<string> DatabaseList { get; } = new ObservableCollection<string>();
     public ReactiveProperty<int> SelectIndex { get; } = new ReactiveProperty<int>();
-    public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>();
 
     public override void Initialize(IUnityContainer container)
     {
@@ -39,21 +38,20 @@ namespace SQLServerTools.ViewModels
 
       DatabaseList.AddRange(Database.Database.GetDatabases(builder.ConnectionString).Select(x => x.Name));
       SelectIndex.Value = 0;
-      Title.Value = $"Table List - {DatabaseList[SelectIndex.Value]}";
-      FetchTables();
+      FetchStats();
     }
 
-    public (bool ok, string message) FetchTables()
+    public (bool ok, string message) FetchStats()
     {
       var builder = Container.Resolve<DbConnectionStringBuilder>();
       if (string.IsNullOrEmpty(builder.ConnectionString))
       {
         return (false, "ConnectionString not found");
       }
-      Tables.Clear();
+      Stats.Clear();
       try
       {
-        Tables.AddRange(Database.Table.GetTables(builder.ConnectionString, DatabaseList[SelectIndex.Value]).Select(x => DataModels.Table.ConvertTable(x)));
+        Stats.AddRange(Database.Stats.GetStats(builder.ConnectionString, DatabaseList[SelectIndex.Value]).Select(x => DataModels.Stats.ConvertStats(x)));
       }
       catch (Exception e)
       {

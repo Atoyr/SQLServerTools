@@ -148,6 +148,9 @@ namespace SQLServerTools.Views
                 case "TablePanel":
                   uc = new TablePanel();
                   break;
+                case "StatsPanel":
+                  uc = new StatsPanel();
+                  break;
                 default:
                   return;
               }

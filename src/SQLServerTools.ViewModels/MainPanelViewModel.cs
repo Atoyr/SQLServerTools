@@ -169,15 +169,19 @@ namespace SQLServerTools.ViewModels
 
     private void AddPanel(string panelName)
     {
+      ViewModelBase vm;
       switch(panelName)
       {
         case "Table":
-          var vm = new TablePanelViewModel();
-          PanelViewModels.Add(vm);
+          vm = new TablePanelViewModel();
+          break;
+        case "Stats":
+          vm = new StatsPanelViewModel();
           break;
         default:
-          break;
+          return;
       }
+      PanelViewModels.Add(vm);
     }
 
     private (bool ok, string message) UpdateDbVersionMessage()

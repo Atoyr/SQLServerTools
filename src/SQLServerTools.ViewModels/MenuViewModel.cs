@@ -23,18 +23,24 @@ namespace SQLServerTools.ViewModels
   public class MenuViewModel : ViewModelBase
   {
     public ReactiveCommand AddTablePanel { get; private set; }
+    public ReactiveCommand AddStatsPanel { get; private set; }
     private Subject<bool> AddTablePanelSource { get; set; }
+    private Subject<bool> AddStatsPanelSource { get; set; }
 
     public override void Initialize()
     {
       AddTablePanelSource = new Subject<bool>();
       AddTablePanel = AddTablePanelSource.ToReactiveCommand(false);
+      AddStatsPanelSource = new Subject<bool>();
+      AddStatsPanel = AddStatsPanelSource.ToReactiveCommand(false);
     }
 
     public override void InitializeEvent(IEventAggregator eventAggregator)
     {
       AddTablePanel.Subscribe(() => eventAggregator.GetEvent<AddPanel>().Publish("Table"));
       eventAggregator.GetEvent<ChangedHasDbConnection>().Subscribe(AddTablePanelSource.OnNext);
+      AddStatsPanel.Subscribe(() => eventAggregator.GetEvent<AddPanel>().Publish("Stats"));
+      eventAggregator.GetEvent<ChangedHasDbConnection>().Subscribe(AddStatsPanelSource.OnNext);
     }
   }
 }
