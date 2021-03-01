@@ -21,7 +21,7 @@
           <Border x:Name="grid" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
             <ContentPresenter>
               <ContentPresenter.Content>
-                <TextBlock x:Name="text" Margin="4" FontSize="15" Text="{TemplateBinding Content}" Foreground="{DynamicResource MahApps.Brushes.WindowTitleNonActive}"/>
+                <TextBlock x:Name="text" Margin="4" FontSize="12" Text="{TemplateBinding Content}" Foreground="{DynamicResource MahApps.Brushes.WindowTitleNonActive}"/>
               </ContentPresenter.Content>             
             </ContentPresenter>  
           </Border>        

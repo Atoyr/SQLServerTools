@@ -33,7 +33,7 @@ namespace SQLServerTools.Views
   public partial class MainPanel : UserControl
   {
     private bool isHandlingPanelViewModelsChanged = false;
-    protected IList<TabControl> tabControls = new List<TabControl>();
+    protected IList<MetroTabControl> tabControls = new List<MetroTabControl>();
 
     private MenuItem PART_ConnectMenuItem = new MenuItem();
     private MenuItem PART_DisconnectMenuItem = new MenuItem();
@@ -55,19 +55,20 @@ namespace SQLServerTools.Views
 
     }
 
-    private TabControl NewTab()
+    private MetroTabControl NewTab()
     {
-      var t = new TabControl();
+      var t = new MetroTabControl();
+      TabControlHelper.SetUnderlined(t, UnderlinedType.TabPanel);
       tabControls.Add(t);
       return t;
     }
 
-    private TabItem AddTabItem(string contentTitle, UIElement element)
+    private MetroTabItem AddTabItem(string contentTitle, UIElement element)
     {
       return AddTabItem(0, contentTitle, element);
     }
 
-    private TabItem AddTabItem(int index, string contentTitle, UIElement element)
+    private MetroTabItem AddTabItem(int index, string contentTitle, UIElement element)
     {
       if (tabControls.Count < index )
       {
@@ -81,10 +82,11 @@ namespace SQLServerTools.Views
         PART_MainGrid.Children.Add(t);
       }
       var tab = tabControls[index];
-      var item = new TabItem();
+      var item = new MetroTabItem();
       item.Header = contentTitle;
       item.Content = element;
       item.Style = FindResource("TabItemStyle") as Style;
+      item.CloseButtonEnabled = true;
       var i = tab.Items.Add(item);
       tab.SelectedIndex = i;
 
