@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Data.Common;
 using System.Data.SqlClient;
 using Prism.Ioc;
@@ -7,6 +8,8 @@ using Prism.Modularity;
 using Prism.Regions;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Theming;
+using ControlzEx.Theming;
 using Unity;
 
 namespace SQLServerTools
@@ -41,6 +44,18 @@ namespace SQLServerTools
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
+
+      // Add custom theme resource dictionaries
+      // You should replace SampleApp with your application name
+      // and the correct place where your custom theme lives
+      var theme = ThemeManager.Current.AddLibraryTheme(
+          new LibraryTheme(
+            new Uri("pack://application:,,,/SQLServerTools;component/Styles/Themes/Dark.Default.xaml"),
+            MahAppsLibraryThemeProvider.DefaultInstance
+            )
+          );
+
+      ThemeManager.Current.ChangeTheme(this, theme);
     }
   }
 }

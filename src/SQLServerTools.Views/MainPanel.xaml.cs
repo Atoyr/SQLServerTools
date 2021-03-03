@@ -264,7 +264,7 @@ namespace SQLServerTools.Views
                  x => { 
                  var mi = new MenuItem();
                    mi.Header = x;
-                   mi.Name = x;
+                   // mi.Name = x;
                    mi.Click += DatabaseNameButton_Click;
                    mi.VerticalAlignment = VerticalAlignment.Bottom;
                    return mi;

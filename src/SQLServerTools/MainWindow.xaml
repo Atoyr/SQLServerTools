@@ -14,10 +14,10 @@
   Title="{Binding Title.Value}" 
   TitleCharacterCasing="Normal"
   ShowIconOnTitleBar="True"
+  BorderThickness="0"
 
   TitleBarHeight="29"
   TitleAlignment="Center"
-  WindowTitleBrush="{DynamicResource MahApps.Brushes.ThemeBackground}"
 
   MinHeight="480"
   MinWidth="640"

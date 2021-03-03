@@ -12,15 +12,49 @@
   d:DesignHeight="29" 
   d:DesignWidth="300">
 <UserControl.Resources>
+  <Style TargetType="{x:Type Menu}" 
+    BasedOn="{StaticResource MahApps.Styles.Menu}"
+    >
+    <Style.Triggers>
+      <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=IsActive}" Value="True">
+        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.WindowTitle}"/>
+      </DataTrigger>
+      <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=IsActive}" Value="False">
+        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForegroundDisabled}"/>
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.WindowTitle.NonActive}"/>
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>  
+
+  <Style 
+    x:Key="HeaderMenuItemStyle" 
+    BasedOn="{StaticResource MahApps.Styles.MenuItem}"
+    TargetType="{x:Type MenuItem}" >
+    <Style.Triggers>
+      <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=IsActive}" Value="True">
+        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.WindowTitle}"/>
+      </DataTrigger>
+      <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},Path=IsActive}" Value="False">
+        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForegroundDisabled}"/>
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.WindowTitle.NonActive}"/>
+      </DataTrigger>
+      <Trigger Property="IsHighlighted" Value="True">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.TopMenuItem.SelectionStroke}" />
+      </Trigger>
+    </Style.Triggers>
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Height" Value="29px" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+  </Style>  
 </UserControl.Resources>
 <Grid>
-  <Menu 
-  FontSize="14"
-  Height="29">
-      <MenuItem Header="_File">
+  <Menu >
+      <MenuItem Style="{StaticResource HeaderMenuItemStyle}" Header="_File">
         <MenuItem Header="_Exit" />
       </MenuItem>
-      <MenuItem Header="_Action">
+      <MenuItem Style="{StaticResource HeaderMenuItemStyle}" Header="_Action">
         <MenuItem Header="_Table List" Command="{Binding AddTablePanel}"/>
         <MenuItem Header="_Stats List" Command="{Binding AddStatsPanel}"/>
       </MenuItem>
