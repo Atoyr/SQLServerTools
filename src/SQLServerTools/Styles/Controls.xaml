@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SQLServerTools;component/Styles/Controls.Grid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SQLServerTools;component/Styles/Controls.Menu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SQLServerTools;component/Styles/Controls.MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SQLServerTools;component/Styles/Controls.ToggleButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

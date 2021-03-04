@@ -34,6 +34,7 @@
       </Setter.Value>      
     </Setter>    
   </Style>  
+
 </UserControl.Resources>
 <Grid>
 <Grid.RowDefinitions>
@@ -44,8 +45,8 @@
     x:Name="PART_MainGrid"
     Grid.Row="0" />
   <Grid 
-    Grid.Row="1" 
-    Background="{DynamicResource MahApps.Brushes.Accent}">
+    Style="{StaticResource StatusBarStyle}"
+    Grid.Row="1" >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*"/>
@@ -69,32 +70,11 @@
         Width="auto"
         Text="{Binding LeftStatusMessage.Value}"/>
     </Label>
-    <Label 
-      Grid.Column="1"
-      x:Name="CenterFooterLabel" 
-      HorizontalContentAlignment="Left" 
-      TextBlock.Foreground="White" 
-      Foreground="White" 
-      Height="21" 
-      Padding="0,0,0,0"
-      Margin="20,0,0,0">
-      <TextBlock 
-        x:Name="CenterStatusText" 
-        HorizontalAlignment="Left" 
-        VerticalAlignment="Stretch" 
-        FontSize="11"
-        Width="auto"
-        Text="{Binding CenterStatusMessage.Value}"/>
-    </Label>
     <ToggleButton 
       x:Name="PART_RightToggleButton"
-      Background="{DynamicResource MahApps.Brushes.Accent}"
       Grid.Column="2"
-      Height="21"
-      FontSize="11"
-      Margin="0,0,0,0"
-      Padding="0,0,0,0"
-      BorderThickness="0"
+      Style="{StaticResource ToggleButtonStyle}"
+      
       Loaded="ToggleButton_Loaded">
       <ToggleButton.ContextMenu>
         <ContextMenu>
